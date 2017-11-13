@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="berita-sluglist">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Akakom Web API - Berita (Slug)</title>
+</head>
+<body ng-controller="main">
+    <p>
+        Daftar slug yang tersedia pada berita, sebagai berikut.
+        <table border="1" cellpadding="15">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="b in berita">
+                    <td>{{ b.slug }}</td>
+                    <td><a href="/api/berita/{{ b.slug }}">/api/berita/{{ b.slug }}</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </p>
+    <script src="/angular.min.js"></script>
+    <script>
+        const main = angular.module('berita-sluglist',[])
+
+        main.controller('main',function($scope, $http){
+            $http.get('http://localhost:8008/api/berita')
+            .then(res=>{
+                $scope.berita = res.data.data;
+            },err=>{
+                $scope.berita = {};
+            });
+        })
+    </script>
+</body>
+</html>
